@@ -1,0 +1,49 @@
+Legend (Symbols)
+Rectangle = Entity
+Underlined attribute = Primary Key
+"int FK" = Foreign Key 
+Single line = one ──── |
+Circle on line = zero or one ────○
+Crow’s foot = many ──<|
+Line between entities = relationship
+
+
+Airport
+Attributes: airport_id (PK), airport_name, country, state, city, created_at, updated_at
+Relationships: One Airport can be departure or arrival for many Flights.
+
+Airline
+Attributes: airline_id (PK), airline_code (unique), name, country, created_at, updated_at
+Relationships: One Airline has many Flights.
+
+Flight
+Attributes: flight_id (PK), departure_gate, arrival_gate, scheduled_departure, scheduled_arrival, actual_departure, actual_arrival, created_at, updated_at, airline_id (FK), departure_airport_id (FK), arrival_airport_id (FK)
+Relationships: Each Flight belongs to one Airline. Each Flight departs from and arrives at an Airport. Each Flight can have many Bookings.
+
+Passenger
+Attributes: passenger_id (PK), first_name, last_name, gender, date_of_birth, country_citizenship, country_residence, passport_number (unique), created_at, updated_at
+Relationships: One Passenger can have many Bookings. One Passenger can pass many SecurityChecks.
+
+Booking
+Attributes: booking_id (PK), flight_id (FK), passenger_id (FK), status, booking_platform, ticket_price, created_at, updated_at
+Relationships: One Flight → many Bookings. One Passenger → many Bookings. One Booking → one BoardingPass. One Booking → many Baggage. One Booking → many BookingChanges.
+
+BoardingPass
+Attributes: boardingpass_id (PK), seat, boarding_time, created_at, updated_at, booking_id (FK, UNIQUE → 1:1)
+Relationships: One Booking has one BoardingPass.
+
+Baggage
+Attributes: baggage_id (PK), weight_kg, created_at, updated_at, booking_id (FK)
+Relationships: One Booking → many Baggage. Each Baggage → one BaggageCheck.
+
+BaggageCheck
+Attributes: baggagecheck_id (PK), check_result, created_at, updated_at, baggage_id (FK)
+Relationships: One Baggage → one (or many) BaggageChecks.
+
+BookingChange
+Attributes: bookingchange_id (PK), change_description, changed_by, created_at, updated_at, booking_id (FK)
+Relationships: One Booking → many BookingChanges.
+
+SecurityCheck
+Attributes: securitycheck_id (PK), check_result, created_at, updated_at, passenger_id (FK)
+Relationships: One Passenger → many SecurityChecks.
